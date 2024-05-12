@@ -1,0 +1,16 @@
+C:\PUSHIN P\MyGame\MyGame\MyGame\bin\Debug\net8.0-windows\MyGame.exe
+C:\PUSHIN P\MyGame\MyGame\MyGame\bin\Debug\net8.0-windows\MyGame.deps.json
+C:\PUSHIN P\MyGame\MyGame\MyGame\bin\Debug\net8.0-windows\MyGame.runtimeconfig.json
+C:\PUSHIN P\MyGame\MyGame\MyGame\bin\Debug\net8.0-windows\MyGame.dll
+C:\PUSHIN P\MyGame\MyGame\MyGame\bin\Debug\net8.0-windows\MyGame.pdb
+C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\MyGame.GeneratedMSBuildEditorConfig.editorconfig
+C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\MyGame.AssemblyInfoInputs.cache
+C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\MyGame.AssemblyInfo.cs
+C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\MyGame.csproj.CoreCompileInputs.cache
+C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\MyGame.dll
+C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\refint\MyGame.dll
+C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\MyGame.pdb
+C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\MyGame.genruntimeconfig.cache
+C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\ref\MyGame.dll
+C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\MyGame.MyForm.resources
+C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\MyGame.csproj.GenerateResource.cache
