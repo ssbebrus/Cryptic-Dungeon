@@ -6,6 +6,9 @@ public class State
     public static Point Position;
     public static HashSet<Point> Coins;
     public static int Score;
+    public static HashSet<Point> Lasers;
+    public static bool LasersActive;
+    public static bool GameOver;
 
     public State(string fromLines)
     {
@@ -28,8 +31,19 @@ public class State
             var cords = coin.Split();
             Coins.Add(new Point(int.Parse(cords[0]), int.Parse(cords[1])));
         }
+        var lasers = parts[2].Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+        Lasers = new HashSet<Point>();
+        foreach (var laser in lasers)
+        {
+            var cords = laser.Split();
+            if (cords[1] == "row")
+                Lasers.Add(new Point(int.Parse(cords[0]), 0));
+            else
+                Lasers.Add(new Point(0, int.Parse(cords[1])));
+        }
         Position = new Point(1, 1);
         Score = 0;
+        GameOver = false;
     }
 
     public static void MovePlayer(KeyEventArgs e)
@@ -47,6 +61,8 @@ public class State
                         Coins.Remove(currentPoint);
                         Score++;
                     }
+                    if (LasersActive && Lasers.Contains(new Point(0, j)))
+                        GameOver = true;
                     continue;
                 }
                 Position = new Point(j + 1, Position.Y);
@@ -65,6 +81,8 @@ public class State
                         Coins.Remove(currentPoint);
                         Score++;
                     }
+                    if (LasersActive && Lasers.Contains(new Point(0, j)))
+                        GameOver = true;
                     continue;
                 } 
                 Position = new Point(j - 1, Position.Y);
@@ -83,6 +101,8 @@ public class State
                         Coins.Remove(currentPoint);
                         Score++;
                     }
+                    if (LasersActive && Lasers.Contains(new Point(i, 0)))
+                        GameOver = true;
                     continue;
                 }
                 Position = new Point(Position.X, i + 1);
@@ -101,6 +121,8 @@ public class State
                         Coins.Remove(currentPoint);
                         Score++;
                     }
+                    if (LasersActive && Lasers.Contains(new Point(i, 0)))
+                        GameOver = true;
                     continue;
                 }
                 Position = new Point(Position.X, i - 1);

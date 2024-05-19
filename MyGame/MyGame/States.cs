@@ -1,6 +1,6 @@
 ﻿namespace MyGame;
 
-class States
+public class States
 {
     public static readonly string firstMap = @"
 ##########
@@ -18,5 +18,7 @@ class States
 8 4
 8 6
 1 5
-5 8";
+5 8
+|
+6 row";
 }

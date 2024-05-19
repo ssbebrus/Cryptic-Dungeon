@@ -1,4 +1,5 @@
-﻿namespace MyGame;
+﻿
+namespace MyGame;
 
 public readonly struct Point
 {

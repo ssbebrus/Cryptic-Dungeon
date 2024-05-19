@@ -12,5 +12,5 @@ C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\refint\MyGame.dll
 C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\MyGame.pdb
 C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\MyGame.genruntimeconfig.cache
 C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\ref\MyGame.dll
-C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\MyGame.MyForm.resources
 C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\MyGame.csproj.GenerateResource.cache
+C:\PUSHIN P\MyGame\MyGame\MyGame\obj\Debug\net8.0-windows\MyGame.MyForm.resources
