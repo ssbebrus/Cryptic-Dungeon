@@ -2,13 +2,15 @@
 
 public class State
 {
-    public static MapCell[,] Map;
-    public static Point Position;
-    public static HashSet<Point> Coins;
-    public static int Score;
-    public static HashSet<Point> Lasers;
-    public static bool LasersActive;
-    public static bool GameOver;
+    public static MapCell[,] Map { get; private set; }
+    public static Point Position { get; private set; }
+    public static HashSet<Point> Coins { get; private set; }
+    public static int Score { get; private set; }
+    public static HashSet<Point> Lasers { get; private set; }
+    public static bool LasersActive { get; set; }
+    public static bool GameOver { get; set; }
+    public static Point Exit { get; private set; }
+    public static bool LevelComplete { get; private set; }
 
     public State(string fromLines)
     {
@@ -16,6 +18,7 @@ public class State
         var map = parts[0].Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
         var height = map.Length;
         var width = map.Any() ? map[0].Length : 0;
+
         Map = new MapCell[height, width];
         for(int i = 0;i < height; i++)
         {
@@ -24,6 +27,7 @@ public class State
                 Map[i,j] = map[i][j] == '#' ? MapCell.Wall : MapCell.Empty;
             }
         }
+
         var coins = parts[1].Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
         Coins = new HashSet<Point>();
         foreach (var coin in coins)
@@ -31,6 +35,7 @@ public class State
             var cords = coin.Split();
             Coins.Add(new Point(int.Parse(cords[0]), int.Parse(cords[1])));
         }
+
         var lasers = parts[2].Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
         Lasers = new HashSet<Point>();
         foreach (var laser in lasers)
@@ -39,9 +44,16 @@ public class State
             if (cords[1] == "row")
                 Lasers.Add(new Point(int.Parse(cords[0]), 0));
             else
-                Lasers.Add(new Point(0, int.Parse(cords[1])));
+                Lasers.Add(new Point(0, int.Parse(cords[0])));
         }
-        Position = new Point(1, 1);
+
+        var exitCords = parts[3].Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).First().Split();
+        Exit = new Point(int.Parse(exitCords[0]), int.Parse(exitCords[1]));
+
+        var playerCords = parts[4].Split(new[] { "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries).First().Split();
+        Position = new Point(int.Parse(playerCords[0]), int.Parse(playerCords[1]));
+
+        LevelComplete = false;
         Score = 0;
         GameOver = false;
     }
@@ -63,6 +75,8 @@ public class State
                     }
                     if (LasersActive && Lasers.Contains(new Point(0, j)))
                         GameOver = true;
+                    if (Exit == currentPoint)
+                        LevelComplete = true;
                     continue;
                 }
                 Position = new Point(j + 1, Position.Y);
@@ -83,6 +97,8 @@ public class State
                     }
                     if (LasersActive && Lasers.Contains(new Point(0, j)))
                         GameOver = true;
+                    if (Exit == currentPoint)
+                        LevelComplete = true;
                     continue;
                 } 
                 Position = new Point(j - 1, Position.Y);
@@ -103,6 +119,8 @@ public class State
                     }
                     if (LasersActive && Lasers.Contains(new Point(i, 0)))
                         GameOver = true;
+                    if (Exit == currentPoint)
+                        LevelComplete = true;
                     continue;
                 }
                 Position = new Point(Position.X, i + 1);
@@ -123,6 +141,8 @@ public class State
                     }
                     if (LasersActive && Lasers.Contains(new Point(i, 0)))
                         GameOver = true;
+                    if (Exit == currentPoint)
+                        LevelComplete = true;
                     continue;
                 }
                 Position = new Point(Position.X, i - 1);

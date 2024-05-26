@@ -1,39 +1,52 @@
 using System.Configuration;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 
 namespace MyGame;
 class MyForm : Form
 {
-    Size ClientSize = new Size(1300, 1000);
+    static Size clientSize = new Size(1300, 1000);
+    static string[] Maps = [States.firstMap, States.secondMap, States.thirdMap];
+    static int currentMap;
+    static int totalScore;
+
     public MyForm()
     {
+        currentMap = 0;
+        totalScore = 0;
         DoubleBuffered = true;
-        var tileSize = ClientSize.Height / State.Map.GetLength(0);
-        var sprites = new Sprites(tileSize);
+        var hTileSize = clientSize.Height / State.Map.GetLength(1);
+        var vTileSize = clientSize.Height / State.Map.GetLength(0);
+        var sprites = new Sprites(hTileSize, vTileSize);
+
         Paint += (sender, args) =>
         {
             args.Graphics.DrawImage(Sprites.Background, 0, 0);
-            args.Graphics.TranslateTransform(300, 0);
+            args.Graphics.TranslateTransform(200, 0);
             if (State.LasersActive)
             {
                 foreach (var laser in State.Lasers)
                 {
                     if (laser.Y == 0)
-                        args.Graphics.DrawImage(sprites.hLaser, 0, tileSize * laser.X + (tileSize / 3));
+                        args.Graphics.DrawImage(sprites.hLaser, 0, vTileSize * laser.X + (vTileSize / 3));
                 }
             }
+            args.Graphics.TranslateTransform(100, 0);
             for (int i = 0; i < State.Map.GetLength(0); i++)
             {
                 for (int j = 0; j < State.Map.GetLength(1); j++)
                 {
                     if (State.Map[i, j] == MapCell.Wall)
-                        args.Graphics.DrawImage(sprites.Wall, j * tileSize, i * tileSize);
+                        args.Graphics.DrawImage(sprites.Wall, j * hTileSize, i * vTileSize);
                     if (State.Coins.Contains(new Point(i, j)))
-                        args.Graphics.DrawImage(sprites.Coin, j * tileSize, i * tileSize);
+                        args.Graphics.DrawImage(sprites.Coin, j * hTileSize, i * vTileSize);
+                    if (State.Exit == new Point(i, j))
+                        args.Graphics.DrawImage(sprites.Exit, j * hTileSize, i * vTileSize);
                 } 
             }     
-            args.Graphics.DrawImage(sprites.Hero, State.Position.X * tileSize, State.Position.Y * tileSize);
+            args.Graphics.DrawImage(sprites.Hero, State.Position.X * hTileSize, State.Position.Y * vTileSize);
         };
+
         var timeLabel = new Label()
         {
             Text = "TIME:",
@@ -95,12 +108,37 @@ D-Right",
                 State.LasersActive = true;
             else
                 State.LasersActive = false;
+            if (State.LasersActive && (State.Lasers.Contains(new Point(State.Position.Y, 0)) 
+            || State.Lasers.Contains(new Point(0, State.Position.X))))
+                State.GameOver = true;
+            if (State.LevelComplete)
+            {
+                if (currentMap + 1 < Maps.Count())
+                {
+                    currentMap++;
+                    totalScore += State.Score;
+                    new State(Maps[currentMap]);
+                    hTileSize = clientSize.Height / State.Map.GetLength(1);
+                    vTileSize = clientSize.Height / State.Map.GetLength(0);
+                    sprites = new Sprites(hTileSize, vTileSize);
+                }
+                else
+                {
+                    totalScore += State.Score;
+                    timer.Stop();
+                    MessageBox.Show($"Вы прошли игру! Ваше время: {timeValue.Text} Вы набрали {totalScore} очков");
+                    currentMap = 0;
+                    new State(Maps[currentMap]);
+                    Close();
+                }
+                
+            }
             if (State.GameOver)
             {
-                time = 0;
-                new State(States.firstMap);
+                new State(Maps[currentMap]);
             }
-            timeValue.Text = String.Format("{0:0.0}", time);
+
+            timeValue.Text = string.Format("{0:0.0}", time);
             scores.Text = State.Score.ToString();
             Invalidate();
         };

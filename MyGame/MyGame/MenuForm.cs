@@ -2,7 +2,7 @@
 
 class MenuForm : Form
 {
-    Size ClientSize = new Size(1300, 1000);
+    Size clientSize = new Size(1300, 1000);
     protected override void OnPaint(PaintEventArgs e)
     {
         var g = e.Graphics;
@@ -30,10 +30,9 @@ class MenuForm : Form
         };
         newGameButton.Click += (sender, args) =>
         {
-            var gameForm = new MyForm() { ClientSize = ClientSize };
             Hide();
-            gameForm.ShowDialog();
-            Show();
+            new MyForm() { ClientSize = clientSize }.ShowDialog();
+            Close();
         };
         var exitGameButton = new Button()
         {
